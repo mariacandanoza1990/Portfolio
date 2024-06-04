@@ -34,6 +34,7 @@
         transition: color 0s; /* Make the transition immediate */
         cursor: pointer; /* Change cursor to pointer to indicate clickability */
         white-space: pre-line; /* Preserve white space for new lines */
+        padding: 20px; /* Default padding */
       }
 
       a {
@@ -47,13 +48,15 @@
 
       @media (max-width: 768px) {
         h1 {
-          font-size: 16pt; /* Increase the size for tablets */
+          font-size: 14pt; /* Increase the size for tablets */
+          padding: 5px; /* Reduce padding for smaller screens */
         }
       }
 
       @media (max-width: 480px) {
         h1 {
-          font-size: 16pt; /* Further increase the size for small devices */
+          font-size: 14pt; /* Further increase the size for small devices */
+          padding: 5px; /* Further reduce padding for smaller screens */
         }
       }
     </style>
