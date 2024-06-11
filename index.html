@@ -1,75 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>My Website</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        overflow: hidden; /* Prevent scrolling */
-        background-color: #000;
-        background-image: url(images/nancy_fraser.jpg);
-        background-size: cover;
-        background-position: center center;
-        font-family: Helvetica, Arial, sans-serif;
-      }
+<head>
+  <meta charset="utf-8">
+  <title>My Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #000;
+      background-size: cover;
+      background-position: center center;
+      font-family: Helvetica, Arial, sans-serif;
+    }
 
-      #container {
-        position: absolute;
-        top: 0px; /* Changed from 20px to 0px */
-        left: 20px;
-        padding: 0;
-      }
+    #container {
+      position: absolute;
+      top: 0px;
+      left: 20px;
+      padding: 0;
+    }
 
+    h1 {
+      color: #FFFFFF;
+      font-family: "Helvetica Neue", sans-serif;
+      font-weight: normal;
+      font-size: 12pt;
+      margin: 0;
+      line-height: 1.2;
+      transition: color 0s;
+      cursor: pointer;
+      white-space: pre-line;
+      padding: 0px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
       h1 {
-        color: #FFFFFF; /* Initial color set to white */
-        font-family: "Helvetica Neue" sans-serif,
-        font-weight: normal; /* Set to normal for regular font weight */
         font-size: 12pt;
-        margin: 0;
-        line-height: 1.2; /* Adjusted line height for better readability */
-        transition: color 0s; /* Make the transition immediate */
-        cursor: pointer; /* Change cursor to pointer to indicate clickability */
-        white-space: pre-line; /* Preserve white space for new lines */
-        padding: 0px; /* Default padding */
+        padding: 0px;
       }
+    }
 
-      a {
-        color: inherit; /* Links inherit the color of the <h1> */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 12pt;
+        padding: 0px;
       }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1 id="bio">
+      <span id="mainText">Maria Candanoza</span><span id="additionalText" class="hidden"> is an art director and designer. (Yale MFA 2020)
+        Currently based in New York, she has lived in London, New Haven, Paris, Berlin and Bogotá.
+      Contact <a id="contactLink" href="#">here</a>.</span>
+    </h1>
+  </div>
 
-      .hidden {
-        display: none; /* Hide the additional text */
-      }
-
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 12pt; /* Increase the size for tablets */
-          padding: 0px; /* Reduce padding for smaller screens */
-        }
-      }
-
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 12pt; /* Further increase the size for small devices */
-          padding: 0px; /* Further reduce padding for smaller screens */
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container">
-      <h1 id="bio">
-        <span id="mainText">Maria Candanoza</span><span id="additionalText" class="hidden"> is an art director and designer. (Yale MFA 2020)
-          Currently based in New York, she has lived in London, New Haven, Paris, Berlin and Bogotá.
-        Contact <a href="mailto:maria.l.candanoza@gmail.com">here</a>.</span>
-      </h1>
-    </div>
-
-    <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>

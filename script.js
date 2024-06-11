@@ -1,108 +1,191 @@
 const body = document.querySelector("body");
 const h1 = document.querySelector("h1");
 const additionalText = document.querySelector("#additionalText");
+const contactLink = document.querySelector("#contactLink");
 const MIN_DISTANCE = 100;
 let lastMousePosition = { x: null, y: null };
 let distanceSinceLastChange = 0;
+let businessCardVisible = false;
 
-const images = [
-  "images/MLC_WEB13.jpg",
-  "images/MLC_WEB95.jpg",
-  "images/MLC_WEB94.jpg",
-  "images/MLC_WEB93.jpg",
-  "images/MLC_WEB92.jpg",
-  "images/MLC_WEB91.jpg",
-  "images/MLC_WEB90.jpg",
-  "images/MLC_WEB89.jpg",
-  "images/MLC_WEB88.jpg",
-  "images/MLC_WEB84.jpg",
-  "images/MLC_WEB83.jpg",
-  "images/MLC_WEB82.jpg",
-  "images/MLC_WEB81.jpg",
-  "images/MLC_WEB80.jpg",
-  "images/MLC_WEB79.jpg",
-  "images/MLC_WEB78.jpg",
-  "images/MLC_WEB77.jpg",
-  "images/MLC_WEB76.jpg",
-  "images/MLC_WEB72.jpg",
-  "images/MLC_WEB70.jpg",
-  "images/MLC_WEB69.jpg",
-  "images/MLC_WEB68.jpg",
-  "images/MLC_WEB67.jpg",
-  "images/MLC_WEB66.jpg",
-  "images/MLC_WEB65.jpg",
-  "images/MLC_WEB64.jpg",
-  "images/MLC_WEB63.jpg",
-  "images/MLC_WEB62.jpg",
-  "images/MLC_WEB61.jpg",
-  "images/MLC_WEB60.jpg",
-  "images/MLC_WEB59.jpg",
-  "images/MLC_WEB58.jpg",
-  "images/MLC_WEB57.jpg",
-  "images/MLC_WEB56.jpg",
-  "images/MLC_WEB55.jpg",
-  "images/MLC_WEB54.jpg",
-  "images/MLC_WEB53.jpg",
-  "images/MLC_WEB52.jpg",
-  "images/MLC_WEB51.jpg",
-  "images/MLC_WEB50.jpg",
-  "images/MLC_WEB49.jpg",
-  "images/MLC_WEB48.jpg",
-  "images/MLC_WEB47.jpg",
-  "images/MLC_WEB46.jpg",
-  "images/MLC_WEB45.jpg",
-  "images/MLC_WEB44.jpg",
-  "images/MLC_WEB40.jpg",
-  "images/MLC_WEB39.jpg",
-  "images/MLC_WEB38.jpg",
-  "images/MLC_WEB37.jpg",
-  "images/MLC_WEB35.jpg",
-  "images/MLC_WEB34.jpg",
-  "images/MLC_WEB33.jpg",
-  "images/MLC_WEB32.jpg",
-  "images/MLC_WEB31.jpg",
-  "images/MLC_WEB30.jpg",
-  "images/MLC_WEB29.jpg",
-  "images/MLC_WEB28.jpg",
-  "images/MLC_WEB27.jpg",
-  "images/MLC_WEB26.jpg",
-  "images/MLC_WEB25.jpg",
-  "images/MLC_WEB24.jpg",
-  "images/MLC_WEB23.jpg",
-  "images/MLC_WEB22.jpg",
-  "images/MLC_WEB21.jpg",
-  "images/MLC_WEB20.jpg",
-  "images/MLC_WEB19.jpg",
-  "images/MLC_WEB18.jpg",
-  "images/MLC_WEB17.jpg",
-  "images/MLC_WEB16.jpg",
-  "images/MLC_WEB15.jpg",
-  "images/MLC_WEB14.jpg",
-  "images/MLC_WEB12.jpg",
-  "images/MLC_WEB11.jpg",
-  "images/MLC_WEB10.jpg",
-  "images/MLC_WEB9.jpg",
-  "images/MLC_WEB8.jpg",
-  "images/MLC_WEB7.jpg",
-  "images/MLC_WEB6.jpg",
-  "images/MLC_WEB5.jpg",
-  "images/MLC_WEB4.jpg",
-  "images/MLC_WEB3.jpg",
-  "images/MLC_WEB2.jpg",
-  "images/MLC_WEB1.jpg"
+const imagesDesktop = [
+  "images/desktop/Maria_Candanoza_Desktop_web97.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web103.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web96.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web101.png",
+  "images/desktop/Maria_Candanoza_Desktop_web100.png",
+  "images/desktop/Maria_Candanoza_Desktop_web99.png",
+  "images/desktop/Maria_Candanoza_Desktop_web98.png",
+  "images/desktop/Maria_Candanoza_Desktop_web102.png",
+  "images/desktop/Maria_Candanoza_Desktop_web97.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web96.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web95.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web94.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web93.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web92.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web91.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web90.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web89.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web88.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web87.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web86.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web85.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web84.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web83.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web82.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web81.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web80.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web79.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web78.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web77.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web76.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web75.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web74.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web73.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web72.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web71.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web70.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web69.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web68.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web67.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web66.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web65.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web64.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web63.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web62.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web61.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web60.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web59.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web58.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web57.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web56.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web55.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web54.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web53.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web52.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web51.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web50.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web49.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web48.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web47.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web46.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web45.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web44.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web43.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web42.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web41.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web40.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web39.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web38.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web37.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web36.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web35.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web34.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web33.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web32.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web31.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web30.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web29.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web28.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web27.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web26.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web25.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web24.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web23.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web22.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web21.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web20.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web19.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web18.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web17.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web16.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web15.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web14.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web13.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web12.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web11.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web10.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web9.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web8.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web7.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web6.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web4.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web3.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web2.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web1.webp",
+  "images/desktop/Maria_Candanoza_Desktop_web5.webp",
+  "images/desktop/printed-things-2_desktop.gif",
+  "images/desktop/stones.gif",
+  "images/desktop/websites.gif",
+  "images/desktop/Storr-3.gif",
+  "images/desktop/Storr-1.gif",
+  "images/desktop/Storr-2.gif"
 ];
 
-function debounce(func, delay) {
-  let timeoutId;
-  return function (...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      func.apply(this, args);
-    }, delay);
-  };
-}
+const imagesMobile = [
+  "images/mobile/Maria_Candanoza_Mobile_web91.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web36.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web48.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web47.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web46.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web45.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web44.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web43.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web42.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web41.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web40.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web39.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web38.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web37.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web35.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web34.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web33.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web32.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web31.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web30.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web29.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web28.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web27.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web26.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web25.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web24.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web23.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web21.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web20.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web19.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web18.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web17.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web16.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web15.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web14.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web13.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web12.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web11.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web10.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web9.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web8.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web7.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web6.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web5.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web4.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web3.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web2.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web1.webp",
+  "images/mobile/Maria_Candanoza_Mobile_web22.webp",
+  "images/mobile/websites.gif",
+  "images/mobile/Storr-3.gif",
+  "images/mobile/Storr-2.gif",
+  "images/mobile/Storr-1.gif",
+  "images/mobile/printed-things_mobile.gif",
+  "images/mobile/stones-(1).gif"
+];
+
+const businessCardImage = "images/business_card_desktop.webp"; // Replace with your business card image path
+
+// Choose the appropriate image set based on screen width
+const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
 
 function changeBackgroundImage() {
+  if (businessCardVisible) return;
   const randomImage = images[Math.floor(Math.random() * images.length)];
   body.style.backgroundImage = `url(${randomImage})`;
   changeTextColor(randomImage);
@@ -145,7 +228,8 @@ function changeTextColor(imageSrc) {
 
 document.addEventListener(
   "mousemove",
-  debounce((e) => {
+  (e) => {
+    if (businessCardVisible) return;
     const mouseX = e.clientX;
     const mouseY = e.clientY;
 
@@ -158,18 +242,31 @@ document.addEventListener(
       changeBackgroundImage();
       lastMousePosition = { x: mouseX, y: mouseY };
     }
-  }, 100)
+  }
 );
 
-// For mobile: change image on click
+h1.addEventListener("click", () => {
+  additionalText.classList.toggle("hidden");
+});
+
+contactLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  businessCardVisible = true;
+  body.style.backgroundImage = `url(${businessCardImage})`;
+  changeTextColor(businessCardImage); // Update text color for business card image
+  additionalText.classList.remove("hidden"); // Show bio when business card is visible
+
+  // Open the email link
+  window.location.href = "mailto:maria.l.candanoza@gmail.com";
+});
+
 document.addEventListener("click", (e) => {
-  changeBackgroundImage();
+  if (businessCardVisible && !e.target.closest("#container")) {
+    businessCardVisible = false;
+    additionalText.classList.add("hidden");
+    changeBackgroundImage();
+  }
 });
 
 // Initial background image setup
 changeBackgroundImage();
-
-// Toggle visibility of additional text on click
-h1.addEventListener("click", () => {
-  additionalText.classList.toggle("hidden");
-});
