@@ -228,24 +228,23 @@ const imagesMobile = [
   "images/mobile/editing_mobile.gif"
 ];
 
+
 // Choose the appropriate image set based on screen width
 const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
+
+// Preload images to prevent black screen issue
+const preloadedImages = images.map((src) => {
+  const img = new Image();
+  img.src = src;
+  return img;
+});
 
 function changeBackgroundImage() {
   if (businessCardVisible) return; // Only change background if the business card is not visible
   const randomImage = images[Math.floor(Math.random() * images.length)];
   console.log("Selected image:", randomImage); // Log the selected image
-  const img = new Image();
-  img.src = randomImage;
-
-  img.onload = () => {
-    console.log("Image loaded successfully:", randomImage);
-    body.style.backgroundImage = `url(${randomImage})`;
-    changeTextColor(randomImage);
-  };
-  img.onerror = (err) => {
-    console.error("Error loading image:", randomImage, err);
-  };
+  body.style.backgroundImage = `url(${randomImage})`;
+  changeTextColor(randomImage);
 }
 
 function changeTextColor(imageSrc) {
@@ -285,6 +284,9 @@ function changeTextColor(imageSrc) {
 
 document.addEventListener("mousemove", (e) => {
   console.log("Mouse move detected"); // Log mouse move events
+  if (businessCardVisible) {
+    businessCardVisible = false;
+  }
   const mouseX = e.clientX;
   const mouseY = e.clientY;
 
@@ -308,32 +310,9 @@ contactLink.addEventListener("click", (e) => {
   window.location.href = "mailto:maria.l.candanoza@gmail.com";
 });
 
-document.addEventListener("click", (e) => {
-  if (businessCardVisible) {
-    businessCardVisible = false;
-    changeBackgroundImage();
-  }
-});
-
 // Initial background image setup
 window.onload = () => {
   body.style.backgroundImage = `url(images/business_card_desktop.webp)`;
   changeTextColor("images/business_card_desktop.webp");
   businessCardVisible = true;
-
-  document.addEventListener("mousemove", (e) => {
-    console.log("Mouse move detected onload"); // Log mouse move events
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    if (
-      lastMousePosition.x === null ||
-      lastMousePosition.y === null ||
-      Math.abs(mouseX - lastMousePosition.x) > MIN_DISTANCE ||
-      Math.abs(mouseY - lastMousePosition.y) > MIN_DISTANCE
-    ) {
-      changeBackgroundImage();
-      lastMousePosition = { x: mouseX, y: mouseY };
-    }
-  });
 };
