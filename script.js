@@ -4,8 +4,7 @@ const additionalText = document.querySelector("#additionalText");
 const contactLink = document.querySelector("#contactLink");
 const MIN_DISTANCE = 100;
 let lastMousePosition = { x: null, y: null };
-let distanceSinceLastChange = 0;
-let businessCardVisible = false;
+let businessCardVisible = true;
 
 const imagesDesktop = [
   "images/desktop/Maria_Candanoza_Desktop_web97.webp",
@@ -118,7 +117,8 @@ const imagesDesktop = [
   "images/desktop/Storr-1.gif",
   "images/desktop/Storr-2.gif",
   "images/desktop/Storr-3.gif",
-  "images/desktop/websites.gif"
+  "images/desktop/websites.gif",
+  "images/desktop/editing_desktop.gif"
 ];
 
 const imagesMobile = [
@@ -224,20 +224,28 @@ const imagesMobile = [
   "images/mobile/Storr-1.gif",
   "images/mobile/Storr-2.gif",
   "images/mobile/Storr-3.gif",
-  "images/mobile/websites.gif"
+  "images/mobile/websites.gif",
+  "images/mobile/editing_mobile.gif"
 ];
-
-
-const businessCardImage = "images/business_card_desktop.webp"; // Replace with your business card image path
 
 // Choose the appropriate image set based on screen width
 const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
 
 function changeBackgroundImage() {
-  if (businessCardVisible) return;
+  if (businessCardVisible) return; // Only change background if the business card is not visible
   const randomImage = images[Math.floor(Math.random() * images.length)];
-  body.style.backgroundImage = `url(${randomImage})`;
-  changeTextColor(randomImage);
+  console.log("Selected image:", randomImage); // Log the selected image
+  const img = new Image();
+  img.src = randomImage;
+
+  img.onload = () => {
+    console.log("Image loaded successfully:", randomImage);
+    body.style.backgroundImage = `url(${randomImage})`;
+    changeTextColor(randomImage);
+  };
+  img.onerror = (err) => {
+    console.error("Error loading image:", randomImage, err);
+  };
 }
 
 function changeTextColor(imageSrc) {
@@ -275,10 +283,46 @@ function changeTextColor(imageSrc) {
   };
 }
 
-document.addEventListener(
-  "mousemove",
-  (e) => {
-    if (businessCardVisible) return;
+document.addEventListener("mousemove", (e) => {
+  console.log("Mouse move detected"); // Log mouse move events
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+
+  if (
+    lastMousePosition.x === null ||
+    lastMousePosition.y === null ||
+    Math.abs(mouseX - lastMousePosition.x) > MIN_DISTANCE ||
+    Math.abs(mouseY - lastMousePosition.y) > MIN_DISTANCE
+  ) {
+    changeBackgroundImage();
+    lastMousePosition = { x: mouseX, y: mouseY };
+  }
+});
+
+h1.addEventListener("click", () => {
+  additionalText.classList.toggle("hidden");
+});
+
+contactLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.location.href = "mailto:maria.l.candanoza@gmail.com";
+});
+
+document.addEventListener("click", (e) => {
+  if (businessCardVisible) {
+    businessCardVisible = false;
+    changeBackgroundImage();
+  }
+});
+
+// Initial background image setup
+window.onload = () => {
+  body.style.backgroundImage = `url(images/business_card_desktop.webp)`;
+  changeTextColor("images/business_card_desktop.webp");
+  businessCardVisible = true;
+
+  document.addEventListener("mousemove", (e) => {
+    console.log("Mouse move detected onload"); // Log mouse move events
     const mouseX = e.clientX;
     const mouseY = e.clientY;
 
@@ -291,31 +335,5 @@ document.addEventListener(
       changeBackgroundImage();
       lastMousePosition = { x: mouseX, y: mouseY };
     }
-  }
-);
-
-h1.addEventListener("click", () => {
-  additionalText.classList.toggle("hidden");
-});
-
-contactLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  businessCardVisible = true;
-  body.style.backgroundImage = `url(${businessCardImage})`;
-  changeTextColor(businessCardImage); // Update text color for business card image
-  additionalText.classList.remove("hidden"); // Show bio when business card is visible
-
-  // Open the email link
-  window.location.href = "mailto:maria.l.candanoza@gmail.com";
-});
-
-document.addEventListener("click", (e) => {
-  if (businessCardVisible && !e.target.closest("#container")) {
-    businessCardVisible = false;
-    additionalText.classList.add("hidden");
-    changeBackgroundImage();
-  }
-});
-
-// Initial background image setup
-changeBackgroundImage();
+  });
+};
