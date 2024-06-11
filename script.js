@@ -232,19 +232,24 @@ const imagesMobile = [
 // Choose the appropriate image set based on screen width
 const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
 
-// Preload images to prevent black screen issue
-const preloadedImages = images.map((src) => {
+// Function to preload image
+function preloadImage(src, callback) {
   const img = new Image();
   img.src = src;
-  return img;
-});
+  img.onload = () => {
+    callback(img);
+  };
+}
 
 function changeBackgroundImage() {
   if (businessCardVisible) return; // Only change background if the business card is not visible
   const randomImage = images[Math.floor(Math.random() * images.length)];
   console.log("Selected image:", randomImage); // Log the selected image
-  body.style.backgroundImage = `url(${randomImage})`;
-  changeTextColor(randomImage);
+
+  preloadImage(randomImage, (loadedImage) => {
+    body.style.backgroundImage = `url(${loadedImage.src})`;
+    changeTextColor(loadedImage.src);
+  });
 }
 
 function changeTextColor(imageSrc) {
