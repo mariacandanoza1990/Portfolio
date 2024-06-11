@@ -242,10 +242,24 @@ function changeBackgroundImage() {
   if (businessCardVisible) return;
 
   const randomImage = images[Math.floor(Math.random() * images.length)];
-  preloadImage(randomImage, () => {
-    body.style.backgroundImage = `url(${randomImage})`;
-    changeTextColor(randomImage);
-  });
+  const isGif = randomImage.endsWith(".gif");
+
+  if (isGif) {
+    const currentBackgroundImage = body.style.backgroundImage;
+
+    preloadImage(randomImage, () => {
+      body.style.backgroundImage = currentBackgroundImage; // Keep the current image while the GIF loads
+      setTimeout(() => {
+        body.style.backgroundImage = `url(${randomImage})`;
+        changeTextColor(randomImage);
+      }, 100); // Small delay to prevent flickering
+    });
+  } else {
+    preloadImage(randomImage, () => {
+      body.style.backgroundImage = `url(${randomImage})`;
+      changeTextColor(randomImage);
+    });
+  }
 }
 
 function changeTextColor(imageSrc) {
@@ -298,6 +312,10 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
+document.addEventListener("click", (e) => {
+  changeBackgroundImage(); // Ensure images change immediately on click for mobile
+});
+
 h1.addEventListener("click", () => {
   additionalText.classList.toggle("hidden");
 });
@@ -328,5 +346,5 @@ window.onload = () => {
   setTimeout(() => {
     businessCardVisible = false;
     changeBackgroundImage();
-  }, 2000); // Show business card for 3 seconds initially
+  }, 2000); // Show business card for 2 seconds initially
 };
