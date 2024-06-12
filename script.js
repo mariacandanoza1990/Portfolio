@@ -244,22 +244,15 @@ function changeBackgroundImage() {
   const randomImage = images[Math.floor(Math.random() * images.length)];
   const isGif = randomImage.endsWith(".gif");
 
-  if (isGif) {
-    const currentBackgroundImage = body.style.backgroundImage;
+  const currentBackgroundImage = body.style.backgroundImage;
 
-    preloadImage(randomImage, () => {
-      body.style.backgroundImage = currentBackgroundImage; // Keep the current image while the GIF loads
-      setTimeout(() => {
-        body.style.backgroundImage = `url(${randomImage})`;
-        changeTextColor(randomImage);
-      }, 100); // Small delay to prevent flickering
-    });
-  } else {
-    preloadImage(randomImage, () => {
+  preloadImage(randomImage, () => {
+    body.style.backgroundImage = currentBackgroundImage; // Keep the current image while the GIF loads
+    setTimeout(() => {
       body.style.backgroundImage = `url(${randomImage})`;
       changeTextColor(randomImage);
-    });
-  }
+    }, 100); // Small delay to prevent flickering
+  });
 }
 
 function changeTextColor(imageSrc) {
@@ -321,13 +314,11 @@ h1.addEventListener("click", () => {
 });
 
 contactLink.addEventListener("click", (e) => {
-  if (!businessCardVisible) {
-    e.preventDefault();
-    businessCardVisible = true;
-    body.style.backgroundImage = `url(${businessCardImage})`;
-    additionalText.classList.remove("hidden");
-    window.location.href = "mailto:maria.l.candanoza@gmail.com"; // Open email link
-  }
+  e.preventDefault();
+  businessCardVisible = true;
+  body.style.backgroundImage = `url(${businessCardImage})`;
+  additionalText.classList.remove("hidden");
+  window.location.href = "mailto:maria.l.candanoza@gmail.com"; // Open email link
 });
 
 document.addEventListener("click", (e) => {
@@ -346,5 +337,5 @@ window.onload = () => {
   setTimeout(() => {
     businessCardVisible = false;
     changeBackgroundImage();
-  }, 2000); // Show business card for 2 seconds initially
+  }, 3000); // Show business card for 3 seconds initially
 };
