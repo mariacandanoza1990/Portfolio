@@ -242,16 +242,12 @@ function changeBackgroundImage() {
   if (businessCardVisible) return;
 
   const randomImage = images[Math.floor(Math.random() * images.length)];
-  const isGif = randomImage.endsWith(".gif");
 
   const currentBackgroundImage = body.style.backgroundImage;
 
   preloadImage(randomImage, () => {
-    body.style.backgroundImage = currentBackgroundImage; // Keep the current image while the GIF loads
-    setTimeout(() => {
-      body.style.backgroundImage = `url(${randomImage})`;
-      changeTextColor(randomImage);
-    }, 100); // Small delay to prevent flickering
+    body.style.backgroundImage = `url(${randomImage})`;
+    changeTextColor(randomImage);
   });
 }
 
