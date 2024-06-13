@@ -337,5 +337,5 @@ window.onload = () => {
   setTimeout(() => {
     businessCardVisible = false;
     changeBackgroundImage();
-  }, 3000); // Show business card for 3 seconds initially
+  }, 2000); // Show business card for 3 seconds initially
 };
