@@ -227,6 +227,7 @@ const imagesMobile = [
   "images/mobile/editing_mobile.gif"
 ];
 
+
 const businessCardImage = "images/business_card_desktop.webp"; // Replace with your business card image path
 
 // Choose the appropriate image set based on screen width
