@@ -232,23 +232,27 @@ const businessCardImage = "images/business_card_desktop.webp"; // Replace with y
 // Choose the appropriate image set based on screen width
 const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
 
-function preloadImage(src, callback) {
-  const img = new Image();
-  img.src = src;
-  img.onload = callback;
+function preloadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve(src);
+    img.onerror = reject;
+  });
 }
 
-function changeBackgroundImage() {
+async function changeBackgroundImage() {
   if (businessCardVisible) return;
 
   const randomImage = images[Math.floor(Math.random() * images.length)];
 
-  const currentBackgroundImage = body.style.backgroundImage;
-
-  preloadImage(randomImage, () => {
+  try {
+    await preloadImage(randomImage);
     body.style.backgroundImage = `url(${randomImage})`;
     changeTextColor(randomImage);
-  });
+  } catch (error) {
+    console.error("Failed to load image:", error);
+  }
 }
 
 function changeTextColor(imageSrc) {
