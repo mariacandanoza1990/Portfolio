@@ -2,6 +2,16 @@ const body = document.querySelector("body");
 const h1 = document.querySelector("h1");
 const additionalText = document.querySelector("#additionalText");
 const contactLink = document.querySelector("#contactLink");
+const mainImage = document.createElement("img");
+mainImage.style.position = "fixed";
+mainImage.style.top = "0";
+mainImage.style.left = "0";
+mainImage.style.width = "100%";
+mainImage.style.height = "100%";
+mainImage.style.objectFit = "cover";
+mainImage.style.zIndex = "-1";
+body.appendChild(mainImage);
+
 const MIN_DISTANCE = 100;
 let lastMousePosition = { x: null, y: null };
 let distanceSinceLastChange = 0;
@@ -227,9 +237,6 @@ const imagesMobile = [
   "images/mobile/editing_mobile.gif"
 ];
 
-
-const businessCardImage = "images/business_card_desktop.webp"; // Replace with your business card image path
-
 // Choose the appropriate image set based on screen width
 const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
 
@@ -249,7 +256,7 @@ async function changeBackgroundImage() {
 
   try {
     await preloadImage(randomImage);
-    body.style.backgroundImage = `url(${randomImage})`;
+    mainImage.src = randomImage;
     changeTextColor(randomImage);
   } catch (error) {
     console.error("Failed to load image:", error);
@@ -317,7 +324,8 @@ h1.addEventListener("click", () => {
 contactLink.addEventListener("click", (e) => {
   e.preventDefault();
   businessCardVisible = true;
-  body.style.backgroundImage = `url(${businessCardImage})`;
+  mainImage.src = "images/business_card_desktop.webp";
+  mainImage.style.display = "block";
   additionalText.classList.remove("hidden");
   window.location.href = "mailto:maria.l.candanoza@gmail.com"; // Open email link
 });
@@ -325,18 +333,18 @@ contactLink.addEventListener("click", (e) => {
 document.addEventListener("click", (e) => {
   if (businessCardVisible) {
     businessCardVisible = false;
-    additionalText.classList.add("hidden");
     changeBackgroundImage();
   }
 });
 
 // Initial background image setup
 window.onload = () => {
-  body.style.backgroundImage = `url(${businessCardImage})`;
+  mainImage.src = "images/business_card_desktop.webp";
+  mainImage.style.display = "block"; // Ensure the business card is visible initially
+  h1.style.display = "block"; // Ensure name is visible initially
   additionalText.classList.add("hidden"); // Hide bio initially
-  h1.classList.remove("hidden"); // Show name
   setTimeout(() => {
     businessCardVisible = false;
     changeBackgroundImage();
-  }, 2000); // Show business card for 3 seconds initially
+  }, 3000); // Show business card for 3 seconds
 };
