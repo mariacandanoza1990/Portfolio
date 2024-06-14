@@ -237,8 +237,20 @@ const imagesMobile = [
   "images/mobile/editing_mobile.gif"
 ];
 
+const businessCardImage = "images/business_card_desktop.webp"; // Business card image path
+
 // Choose the appropriate image set based on screen width
 const images = window.innerWidth <= 480 ? imagesMobile : imagesDesktop;
+let shuffledImages = shuffleArray(images.slice());
+let currentIndex = 0;
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 function preloadImage(src) {
   return new Promise((resolve, reject) => {
@@ -252,12 +264,18 @@ function preloadImage(src) {
 async function changeBackgroundImage() {
   if (businessCardVisible) return;
 
-  const randomImage = images[Math.floor(Math.random() * images.length)];
+  if (currentIndex >= shuffledImages.length) {
+    shuffledImages = shuffleArray(images.slice());
+    currentIndex = 0;
+  }
+
+  const nextImage = shuffledImages[currentIndex];
+  currentIndex++;
 
   try {
-    await preloadImage(randomImage);
-    mainImage.src = randomImage;
-    changeTextColor(randomImage);
+    await preloadImage(nextImage);
+    mainImage.src = nextImage;
+    changeTextColor(nextImage);
   } catch (error) {
     console.error("Failed to load image:", error);
   }
@@ -324,7 +342,7 @@ h1.addEventListener("click", () => {
 contactLink.addEventListener("click", (e) => {
   e.preventDefault();
   businessCardVisible = true;
-  mainImage.src = "images/business_card_desktop.webp";
+  mainImage.src = businessCardImage;
   mainImage.style.display = "block";
   additionalText.classList.remove("hidden");
   window.location.href = "mailto:maria.l.candanoza@gmail.com"; // Open email link
@@ -339,7 +357,7 @@ document.addEventListener("click", (e) => {
 
 // Initial background image setup
 window.onload = () => {
-  mainImage.src = "images/business_card_desktop.webp";
+  mainImage.src = businessCardImage;
   mainImage.style.display = "block"; // Ensure the business card is visible initially
   h1.style.display = "block"; // Ensure name is visible initially
   additionalText.classList.add("hidden"); // Hide bio initially
