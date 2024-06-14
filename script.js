@@ -274,7 +274,9 @@ async function changeBackgroundImage() {
 
   try {
     await preloadImage(nextImage);
+    mainImage.style.display = 'none';
     mainImage.src = nextImage;
+    mainImage.style.display = 'block';
     changeTextColor(nextImage);
   } catch (error) {
     console.error("Failed to load image:", error);
