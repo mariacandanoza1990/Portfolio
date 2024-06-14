@@ -333,8 +333,13 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
+let clickTimeout;
+
 document.addEventListener("click", (e) => {
-  changeBackgroundImage(); // Ensure images change immediately on click for mobile
+  clearTimeout(clickTimeout);
+  clickTimeout = setTimeout(() => {
+    changeBackgroundImage(); // Ensure images change immediately on click for mobile
+  }, 100); // Adding a delay to avoid quick flashes
 });
 
 h1.addEventListener("click", () => {
@@ -366,5 +371,5 @@ window.onload = () => {
   setTimeout(() => {
     businessCardVisible = false;
     changeBackgroundImage();
-  }, 3000); // Show business card for 3 seconds
+  }, 2000); // Show business card for 3 seconds
 };
