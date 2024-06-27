@@ -127,7 +127,8 @@ const imagesDesktop = [
   "images/desktop/websites.gif",
   "images/desktop/Storr-3.gif",
   "images/desktop/Storr-1.gif",
-  "images/desktop/Storr-2.gif"
+  "images/desktop/Storr-2.gif",
+  "images/desktop/Maria_Candanoza_Desktop_web104.webp"
 ];
 
 const imagesMobile = [
