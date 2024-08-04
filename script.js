@@ -334,13 +334,8 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
-let clickTimeout;
-
 document.addEventListener("click", (e) => {
-  clearTimeout(clickTimeout);
-  clickTimeout = setTimeout(() => {
-    changeBackgroundImage(); // Ensure images change immediately on click for mobile
-  }, 100); // Adding a delay to avoid quick flashes
+  changeBackgroundImage(); // Ensure images change immediately on click for mobile
 });
 
 h1.addEventListener("click", () => {
